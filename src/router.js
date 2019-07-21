@@ -12,11 +12,27 @@ export default new Router({
       component: Home
     },
     {
-      path: '/about',
-      name: 'about',
+      path: '/profile',
+      name: 'profile',
       
-      component: function () { 
-        return import(/* webpackChunkName: "about" */ './views/About.vue')
+      component() { 
+        return import(/* webpackChunkName: "profile" */ './views/Profile.vue')
+      }
+    },
+	{
+      path: '/works',
+      name: 'works',
+      
+      component() { 
+        return import(/* webpackChunkName: "works" */ './views/Works.vue')
+      }
+    },
+	{
+      path: '/social',
+      name: 'social',
+      
+      component() { 
+        return import(/* webpackChunkName: "social" */ './views/Social.vue')
       }
     }
   ]
