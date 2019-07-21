@@ -11,6 +11,7 @@
 				<li 
 					v-for="(workSummary, index) in worksSummary"
 					v-bind:key="workSummary.id"
+					v-on:mouseover="focusWork(index)"
 					class="works__content-list__item">
 					
 					<div class="item__header">
@@ -47,7 +48,21 @@
 		
 		data() {
 			return {
-				worksSummary: worksSummary
+				worksSummary: worksSummary,
+				isModalVisible: false
+			};
+		},
+		
+		methods: {
+			
+			focusWork(index) {
+				
+				if (this.isModalVisible) {
+					return;
+				}
+				
+				console.log("called by " + index);
+				this.isModalVisible = true;
 			}
 		}
 		
