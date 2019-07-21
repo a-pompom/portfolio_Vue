@@ -3,7 +3,7 @@
 	{
 		"id": 1,
 		"appName": "Twitterクローンアプリ",
-		"appImageSource": "../assets/app_capture/tweet_app.png",
+		"appImageSource": "./app_capture/tweet_app.png",
 		"gitHubLink": "https://github.com/a-pompom/spring-boot-twitter_clone_practice",
 		"appIconList": [
 			{
@@ -13,17 +13,17 @@
 			},
 			{
 				"tagId": 2,
-				"imgSource": "../assets/external/java.svg",
+				"imgSource": "./external/java.svg",
 				"tagName": "Java"
 			},
 			{
 				"tagId": 3,
-				"imgSource": "../assets/external/javascript.svg",
+				"imgSource": "./external/javascript.svg",
 				"tagName": "JavaScript"
 			},
 			{
 				"tagId": 4,
-				"imgSource": "../assets/external/vue-dot-js.svg",
+				"imgSource": "./external/vue-dot-js.svg",
 				"tagName": "Vue.js"
 			}
 		]
@@ -32,17 +32,17 @@
 	{
 		"id": 2,
 		"appName": "Markdownエディタっぽいやつ",
-		"appImageSource": "../assets/app_capture/markdown_app.png",
+		"appImageSource": "./app_capture/markdown_app.png",
 		"gitHubLink": "https://github.com/a-pompom/vue-markdown-editor",
 		"appIconList": [
 			{
 				"tagId": 1,
-				"imgSource": "../assets/external/javascript.svg",
+				"imgSource": "./external/javascript.svg",
 				"tagName": "JavaScript"
 			},
 			{
 				"tagId": 2,
-				"imgSource": "../assets/external/vue-dot-js.svg",
+				"imgSource": "./external/vue-dot-js.svg",
 				"tagName": "Vue.js"
 			}
 		]
@@ -51,7 +51,7 @@
 	{
 		"id": 3,
 		"appName": "kintoneを利用して日報っぽい文章を作成するエディタ",
-		"appImageSource": "../assets/app_capture/kintone_report_app.png",
+		"appImageSource": "./app_capture/kintone_report_app.png",
 		"gitHubLink": "https://github.com/a-pompom/wg/tree/master/kintone_report",
 		"appIconList": [
 			{
@@ -61,12 +61,12 @@
 			},
 			{
 				"tagId": 2,
-				"imgSource": "../assets/external/javascript.svg",
+				"imgSource": "./external/javascript.svg",
 				"tagName": "JavaScript"
 			},
 			{
 				"tagId": 3,
-				"imgSource": "../assets/external/vue-dot-js.svg",
+				"imgSource": "./external/vue-dot-js.svg",
 				"tagName": "Vue.js"
 			}
 		]
@@ -75,7 +75,7 @@
 	{
 		"id": 4,
 		"appName": "SpringBoot + SpringSecurityでログイン機能の作成",
-		"appImageSource": "../assets/app_capture/springbott-security.png",
+		"appImageSource": "./app_capture/springboot-security.png",
 		"gitHubLink": "https://github.com/a-pompom/spring-boot-login_app_demo",
 		"appIconList": [
 			{
@@ -85,7 +85,7 @@
 			},
 			{
 				"tagId": 2,
-				"imgSource": "../assets/external/java.svg",
+				"imgSource": "./external/java.svg",
 				"tagName": "Java"
 			}
 		]
