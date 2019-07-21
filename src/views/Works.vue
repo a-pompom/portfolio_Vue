@@ -120,6 +120,19 @@
 	</div>
 </template>
 
+<script>
+	
+	import worksSummary from "../assets/works_data/works.json";
+	
+	export default {
+		
+		data() {
+			worksSummary: worksSummary
+		}
+		
+	}
+	
+</script>
 
 
 <style lang="scss" scoped>
