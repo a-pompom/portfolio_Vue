@@ -10,7 +10,14 @@
 		</div>
 		
 		<div class="top__icon-list">
-
+			<a href="https://twitter.com/a_pompomP">
+				<img src="../assets/external/twitter.svg">
+			</a>
+			
+			<a href="https://github.com/a-pompom">
+				<img src="../assets/external/github.svg">
+			</a>
+			
 		</div>
 		
 	</div>
@@ -23,3 +30,48 @@ export default {
   
 }
 </script>
+
+
+
+<style lang="scss">
+	
+	.top {
+		width: 100%;
+		height: 100%;
+		margin: 20px auto;		
+		
+		&__title {
+			font-size: 1.7rem;
+			font-weight: bold;
+			text-align: center;
+			margin-right: 3%;
+		}
+		
+		&__image img{
+			display: block;
+			max-width: 1024px;
+			
+			margin: 10px auto;
+		}
+		
+		&__icon-list {
+			@include flex-center;
+			
+			margin-right: 3%;
+			
+			& a:hover {
+				opacity: 0.7;
+			}
+			
+			& img {
+				display: block;
+				width: 150px;
+
+				margin: 5px auto;
+			}
+			
+		}	
+		
+	}
+	
+</style>
