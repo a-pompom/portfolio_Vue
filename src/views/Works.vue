@@ -21,8 +21,10 @@
 					<works-detail-modal
 						v-bind:visible="modalVisibleArray[index]"
 						v-bind:index="index"
-						v-bind:workDetail="worksDetail[index]">
+						v-bind:workDetail="worksDetail[index]"
+						v-bind:test="test">
 					</works-detail-modal>
+					
 					<ul class="item__icon-list">
 					
 						<li 
@@ -60,7 +62,8 @@
 			return {
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
-				modalVisibleArray: []
+				modalVisibleArray: [],
+				test: ""
 			};
 		},
 		
@@ -72,21 +75,20 @@
 			
 			focusWork(index) {
 				
-				if (this.isModalVisible) {
+				if (this.modalVisibleArray[index]) {
 					return;
 				}
+				this.test = "test";
+				this.modalVisibleArray[index] = true;
+				console.log('called' + this.modalVisibleArray);
 				
-				console.log("called by " + index);
-				this.modalVisibleArray[index] = false;
-				console.log(this.modalVisibleArray);
 			}
 		},
 		
-		mounted() {
+		created() {
 			for (let i= 0; i < this.worksSummary.length; i++) {
-				this.modalVisibleArray.push(true);
+				this.modalVisibleArray.push(false);
 			}
-			console.log(this.modalVisibleArray);
 		}
 		
 	}

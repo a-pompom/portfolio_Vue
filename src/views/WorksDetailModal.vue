@@ -12,19 +12,20 @@
 		props: {
 			visible: Boolean,
 			index: Number,
-			workDetail: Object
+			workDetail: Object,
+			test: String
+			
 		},
 		
 		watch: {
-			visible(value) {
-				console.log("visible changed");
+			
+			visible(o, n) {
+				console.log('changed');
 			}
-		},
+	}
 		
-		data() {
-			return {
-				
-			}
-		}
+		
+		
+		
 	}
 </script>
