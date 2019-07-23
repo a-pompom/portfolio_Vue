@@ -9,9 +9,9 @@
 			
 			<ul class="works__content-list">
 				<li 
-					v-for="(workSummary, index) in worksSummary"
+					v-for="(workSummary, summaryIndex) in worksSummary"
 					v-bind:key="workSummary.id"
-					v-on:mouseover="focusWork(index)"
+					v-on:click="focusWork(summaryIndex)"
 					class="works__content-list__item">
 					
 					<div class="item__header">
@@ -19,16 +19,16 @@
 						<h3>{{ workSummary.appName }}</h3>
 					</div>
 					<works-detail-modal
-						v-bind:visible="modalVisibleArray[index]"
-						v-bind:index="index"
-						v-bind:workDetail="worksDetail[index]"
-						v-bind:test="test">
+						v-bind:currentModalIndex='currentModalIndex'
+						v-bind:index="summaryIndex"
+						v-bind:workDetail="worksDetail[summaryIndex]"
+						>
 					</works-detail-modal>
 					
 					<ul class="item__icon-list">
 					
 						<li 
-							v-for="(itemIcon, index) in workSummary.appIconList"
+							v-for="(itemIcon, itemIndex) in workSummary.appIconList"
 							v-bind:key="itemIcon.id"
 							class="item__icon-list__image">
 							
@@ -62,6 +62,7 @@
 			return {
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
+				currentModalIndex: -1,
 				modalVisibleArray: [],
 				test: ""
 			};
@@ -75,12 +76,7 @@
 			
 			focusWork(index) {
 				
-				if (this.modalVisibleArray[index]) {
-					return;
-				}
-				this.test = "test";
-				this.modalVisibleArray[index] = true;
-				console.log('called' + this.modalVisibleArray);
+				this.currentModalIndex = index;
 				
 			}
 		},
