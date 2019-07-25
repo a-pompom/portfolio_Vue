@@ -1,4 +1,5 @@
 <template>
+
 	<div class="works">
 		
 		<div class="works__title">
@@ -8,27 +9,26 @@
 		<div class="works__content">
 			
 			<ul class="works__content-list">
+				<!-- 各要素へフォーカスすると
+					 詳細をモーダルで表示
+				 -->
 				<li 
 					v-for="(workSummary, summaryIndex) in worksSummary"
 					v-bind:key="workSummary.id"
 					v-on:click="focusWork(summaryIndex)"
 					class="works__content-list__item">
 					
+					<!-- 概要(キャプチャ,  アプリ名) -->
 					<div class="item__header">
 						<img v-bind:src="workSummary.appImageSource">
 						<h3>{{ workSummary.appName }}</h3>
 					</div>
-					<works-detail-modal
-						v-bind:currentModalIndex='currentModalIndex'
-						v-bind:index="summaryIndex"
-						v-bind:workDetail="worksDetail[summaryIndex]"
-						>
-					</works-detail-modal>
 					
+					<!-- 使用した技術 -->
 					<ul class="item__icon-list">
 					
 						<li 
-							v-for="(itemIcon, itemIndex) in workSummary.appIconList"
+							v-for="(itemIcon) in workSummary.appIconList"
 							v-bind:key="itemIcon.id"
 							class="item__icon-list__image">
 							
@@ -40,52 +40,68 @@
 						</li>
 						
 					</ul>
+
+					<!-- モーダルコンポーネント
+						- 表示対象のインデックス
+						- ループインデックス 配列で表示フラグを管理するとwatchイベントでelementの変更を検知できないのでcurrentIndexと
+						  ループインデックスで表示・非表示を管理
+						- 詳細要素を格納したJSON
+					 -->
+					<works-detail-modal
+						v-bind:currentModalIndex="currentModalIndex"
+						v-bind:index="summaryIndex"
+						v-bind:workDetail="worksDetail[summaryIndex]"
+						>
+					</works-detail-modal>
+
 				</li>
 			</ul>
 			
 		</div>
 		
-		
-	
 	</div>
 </template>
 
 <script>
 	
 	import worksSummary from "../assets/works_data/works.json";
-	import worksDetailModal from "./WorksDetailModal.vue";
 	import worksDetail from "../assets/works_data/worksDetail.json";
+	import worksDetailModal from "./WorksDetailModal.vue";
+	
 	
 	export default {
 		
+		/**
+		 * 表示要素, モーダル表示インデックスを管理
+		 */
 		data() {
 			return {
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
 				currentModalIndex: -1,
-				modalVisibleArray: [],
-				test: ""
 			};
 		},
 		
+		/**
+		 * - モーダルコンポーネント
+		 */
 		components: {
 			worksDetailModal: worksDetailModal
 		},
 		
 		methods: {
 			
+			/**
+			 * 各「つくったもの」要素へフォーカスされたときに発火
+			 * モーダル用インデックスを変更することで表示対象を切り替え
+			 * 
+			 * @param {Number} index: フォーカス対象のインデックス
+			 */
 			focusWork(index) {
 				
 				this.currentModalIndex = index;
-				
 			}
 		},
-		
-		created() {
-			for (let i= 0; i < this.worksSummary.length; i++) {
-				this.modalVisibleArray.push(false);
-			}
-		}
 		
 	}
 	
@@ -99,6 +115,7 @@
 		width: 100%;
 		height: 100%;
 		
+		// ページヘッダ部分
 		&__title {
 			text-align: center;
 			
@@ -108,6 +125,7 @@
 			border-bottom: 1px solid #000;
 		}
 		
+		// コンテンツ 各要素を枠で囲ってリスト形式で表示させる
 		&__content {
 			
 			width: 80%;
@@ -133,6 +151,7 @@
 		
 	}
 	
+	//アイコンのスタイル
 	.item__header {
 		& img {
 			width: 500px;
