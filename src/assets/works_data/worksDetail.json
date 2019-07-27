@@ -1,18 +1,30 @@
 [
 	{
 		"id": 0,
-		"gitHubLink": "https://github.com/a-pompom/spring-boot-twitter_clone_practice"
+		"gitHubLink": "https://github.com/a-pompom/spring-boot-twitter_clone_practice",
+		"commentArray": [
+			"test"
+		]
 	},
 	{
 		"id": 1,
-		"gitHubLink": "https://github.com/a-pompom/"
+		"gitHubLink": "https://github.com/a-pompom/",
+		"commentArray": [
+			"test"
+		]
 	},
 	{
 		"id": 2,
-		"gitHubLink": "https://github.com/a-pompom/sp"
+		"gitHubLink": "https://github.com/a-pompom/sp",
+		"commentArray": [
+			"test"
+		]
 	},
 	{
 		"id": 3,
-		"gitHubLink": "https://github.com/a-pompom/spr"
+		"gitHubLink": "https://github.com/a-pompom/spr",
+		"commentArray": [
+			"test"
+		]
 	}
 ]

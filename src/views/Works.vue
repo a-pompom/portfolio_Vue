@@ -51,6 +51,7 @@
 						v-bind:currentModalIndex="currentModalIndex"
 						v-bind:index="summaryIndex"
 						v-bind:workDetail="worksDetail[summaryIndex]"
+						v-on:modalClose="closeModal"
 						>
 					</works-detail-modal>
 
@@ -67,7 +68,6 @@
 	import worksSummary from "../assets/works_data/works.json";
 	import worksDetail from "../assets/works_data/worksDetail.json";
 	import worksDetailModal from "./WorksDetailModal.vue";
-	
 	
 	export default {
 		
@@ -100,6 +100,12 @@
 			focusWork(index) {
 				
 				this.currentModalIndex = index;
+			},
+
+			closeModal() {
+				this.currentModalIndex = -1;
+				console.log('closed');
+				
 			}
 		},
 		
@@ -140,10 +146,6 @@
 					text-align: center;
 					margin-top: 30px;
 					
-					&:hover {
-						opacity: 0.7;
-						cursor: pointer;
-					}
 				}
 				
 			}

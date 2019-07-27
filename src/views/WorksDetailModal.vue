@@ -1,13 +1,19 @@
 <template>
 
 	<div class="works__detail">
-		<div v-show="isModalVisible" class="works__modal-overlay"></div>
-		<!-- モーダルは中心に表示して背景を暗くする コメント,GitHubリンクなんかを載せていきたい -->
+		<div 
+			v-show="isModalVisible"
+			v-on:click.stop="overlayClick"
+			class="works__modal-overlay">
+		</div>
+
 		<div 
 			v-show="isModalVisible"
 			v-bind:id="modalId"
 			class="works__modal">	
-			<p>{{ workDetail.gitHubLink }}</p>
+			
+		
+
 		</div>
 	</div>
 	
@@ -15,6 +21,8 @@
 
 <script>
 	
+
+
 	export default {
 		/**
 		 * - 現在モーダル表示対象となっているインデックス
@@ -35,6 +43,7 @@
 
 			// モーダルの表示・非表示を管理
 			isModalVisible() {
+				console.log(this.currentModalIndex + ' : ' + this.index);
 				return this.currentModalIndex === this.index;
 			}
 
@@ -73,7 +82,16 @@
 					
 				});
 				
+			},
+
+			overlayClick() {
+				if (!this.isModalVisible) {
+					return;
+				}
+				console.log('overlay clicked');
+				this.$emit("modalClose");
 			}
+
 		}
 		
 	}
@@ -83,22 +101,21 @@
 <style lang="scss" scoped>
 	
 	.works__modal-overlay {
-		z-index:1;
-		position:fixed;
+		z-index: 999;
+		position: fixed;
 		top:0;
 		left:0;
 		width:100%;
 		height:120%;
-		background-color:rgba(0,0,0,0.75);
+		background-color:rgba(0,0,0,0.7);
 	}
 
 	.works__modal {
-		z-index:9999;
+		z-index: 9999;
 		position: fixed;
 		// 位置はvueで算出した後に設定
-		width:50%;
+		width:75%;
 		height: 50%;
-		margin:1.5em auto 0;
 		padding:10px 20px;
 		border:2px solid #aaa;
 		background:#fff;
