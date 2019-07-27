@@ -3,16 +3,62 @@
 	<div class="works__detail">
 		<div 
 			v-show="isModalVisible"
-			v-on:click.stop="overlayClick"
+			v-on:click.stop="close"
 			class="works__modal-overlay">
 		</div>
 
-		<div 
+		<div
+			 
 			v-show="isModalVisible"
 			v-bind:id="modalId"
 			class="works__modal">	
+
+			<div class="modal__header">
+				<h3>
+					{{ workSummary.appName }}
+				</h3>
+
+				<h2 v-on:click.stop="close" class="modal__header__close">×</h2>
+			</div>
 			
-		
+			<div class="modal__content">
+
+				<div class="modal__content--figure">
+					<img v-bind:src="workSummary.appImageSource" class="figure-capture">
+					
+					<a v-bind:href="workDetail.gitHubLink" class="figure-git-hub">
+						<img src="../../public/external/github.svg">
+					</a>
+					
+				</div>
+				
+
+				<div class="modal__content--info">
+
+					<div v-html="detailComment"></div>
+				</div>
+
+				<!-- 使用した技術 -->
+				<ul class="item__icon-list">
+				
+					<li 
+						v-for="(itemIcon) in workSummary.appIconList"
+						v-bind:key="itemIcon.id"
+						class="item__icon-list__image">
+						
+						<h4 v-if="itemIcon.imgSource === '' " class="item__icon-list__alt-text">{{ itemIcon.tagName }}</h4>
+						<img v-else v-bind:src="itemIcon.imgSource">
+						
+						<p>{{ itemIcon.tagName }}</p>
+						
+					</li>
+					
+				</ul>
+
+			</div>
+
+			
+			
 
 		</div>
 	</div>
@@ -27,11 +73,13 @@
 		/**
 		 * - 現在モーダル表示対象となっているインデックス
 		 * - 各モーダルコンポーネントのID currentModalIndexと一致したらモーダル表示
+		 * - 概要要素を格納したJSON
 		 * - 詳細表示要素を格納したJSON
 		 */
 		props: {
 			currentModalIndex: Number,
 			index: Number,
+			workSummary: Object,
 			workDetail: Object
 		},
 
@@ -45,6 +93,17 @@
 			isModalVisible() {
 				console.log(this.currentModalIndex + ' : ' + this.index);
 				return this.currentModalIndex === this.index;
+			},
+
+			detailComment() {
+				let result = "";
+				this.workDetail.commentArray.forEach((element) => {
+					result += "<p>";
+					result += element;
+					result += "</p>";
+				})
+
+				return result;
 			}
 
 		},
@@ -84,11 +143,10 @@
 				
 			},
 
-			overlayClick() {
+			close() {
 				if (!this.isModalVisible) {
 					return;
 				}
-				console.log('overlay clicked');
 				this.$emit("modalClose");
 			}
 
@@ -115,11 +173,75 @@
 		position: fixed;
 		// 位置はvueで算出した後に設定
 		width:75%;
-		height: 50%;
-		padding:10px 20px;
+		height: 80%;
+		padding: 20px;
 		border:2px solid #aaa;
 		background:#fff;
 		
+	}
+
+	.modal__header {
+		width: 100%;
+		height: 7%;
+		margin: 0;
+		border-bottom: 2px solid #f5f5f5;
+
+		&__close {
+			position: absolute;
+			right: 20px;
+			top: 0;
+			border-radius: 50%;
+
+			&:hover {
+				cursor: pointer;
+				background-color: #f5f5f5;
+			}
+		}
+	}
+
+	.modal__content {
+		width: 100%;
+		height: 90%;
+		margin: 10px auto;
+		position: relative;
+
+		&--figure {
+			width: 100%;
+			max-height: 60%;
+			@include flex-between;
+		}
+	}
+
+
+	.figure-capture {
+		max-width: 60%;
+	}
+	.figure-git-hub {
+		width: 200px;
+		max-width: 30%;
+	}
+
+	.item__icon-list {
+		position: absolute;
+		bottom: 20px;
+		right: 20px;
+		@include flex-right;
+		margin-right: 2%;
+		
+		&__image {
+			
+			margin-right: 5%;
+			
+			& img {
+				width: 32px;
+			}
+			
+		}
+
+		&__alt-text {
+			height: 32px;
+			margin-top: 0;
+		}
 	}
 
 </style>

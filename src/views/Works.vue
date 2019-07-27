@@ -19,27 +19,17 @@
 					class="works__content-list__item">
 					
 					<!-- 概要(キャプチャ,  アプリ名) -->
-					<div class="item__header">
+					<figure class="item">
 						<img v-bind:src="workSummary.appImageSource">
 						<h3>{{ workSummary.appName }}</h3>
-					</div>
+						<figcaption class="item-mask">
+							<h2 class="item-mask--text">
+								Read More...
+							</h2>
+						</figcaption>
+					</figure>
 					
-					<!-- 使用した技術 -->
-					<ul class="item__icon-list">
 					
-						<li 
-							v-for="(itemIcon) in workSummary.appIconList"
-							v-bind:key="itemIcon.id"
-							class="item__icon-list__image">
-							
-							<h2 v-if="itemIcon.imgSource === '' ">{{ itemIcon.tagName }}</h2>
-							<img v-else v-bind:src="itemIcon.imgSource">
-							
-							<p>{{ itemIcon.tagName }}</p>
-							
-						</li>
-						
-					</ul>
 
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
@@ -50,6 +40,7 @@
 					<works-detail-modal
 						v-bind:currentModalIndex="currentModalIndex"
 						v-bind:index="summaryIndex"
+						v-bind:workSummary="workSummary"
 						v-bind:workDetail="worksDetail[summaryIndex]"
 						v-on:modalClose="closeModal"
 						>
@@ -134,17 +125,23 @@
 		// コンテンツ 各要素を枠で囲ってリスト形式で表示させる
 		&__content {
 			
-			width: 80%;
+			width: 95%;
 			margin: 20px auto;
 			
 			&-list {
 				
+
+				@include flex-table;
+
 				&__item {
+					width: 40%;
+					max-height: 350px;
+
 					font-size: 1.2rem;
-					border: 1px solid #000;
-					border-radius: 5%;
+					border: 1px solid #4d464f;
+					border-radius: 1%;
 					text-align: center;
-					margin-top: 30px;
+					margin: 20px auto;
 					
 				}
 				
@@ -153,25 +150,45 @@
 		
 	}
 	
-	//アイコンのスタイル
-	.item__header {
+	
+	.item{
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		position: relative;
+  		overflow: hidden;
+
 		& img {
-			width: 500px;
+			max-width: 400px;
+			max-height: 180px;
+		}
+
+		&-mask {
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 2;
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.6);
+			transition: .3s;
+			opacity: 0;
+
+			&--text {
+				width: 100%;
+				height: 100%;
+				color: #fff;
+				margin: 0;
+				
+
+			}
+		}
+
+		&:hover &-mask {
+			opacity: 1.0;
+			padding-top: 25%;
 		}
 	}
 	
-	.item__icon-list {
-		@include flex-right;
-		margin-right: 10%;
-		
-		&__image {
-			
-			margin-right: 5%;
-			
-			& img {
-				width: 64px;
-			}
-			
-		}
-	}
+	
 </style>
