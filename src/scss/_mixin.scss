@@ -25,3 +25,12 @@
 	display: flex;
 	flex-wrap: wrap;
 }
+
+
+// デバイスが縦長か横長かでレイアウトを作り分ける用
+@mixin for-portrait {
+	@media screen and (orientation: portrait) { @content; }
+}
+@mixin for-landscape {
+	@media screen and (orientation: landscape) { @content; }
+}
