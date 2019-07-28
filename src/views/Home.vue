@@ -50,7 +50,7 @@ export default {
 		
 		&__image img{
 			display: block;
-			max-width: 1024px;
+			max-width: 80%;
 			
 			margin: 10px auto;
 		}
@@ -68,6 +68,7 @@ export default {
 			& img {
 				display: block;
 				width: 150px;
+				max-width: 40%;
 
 				margin: 5px auto;
 			}

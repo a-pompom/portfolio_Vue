@@ -131,14 +131,23 @@
 			width: 95%;
 			margin: 20px auto;
 			
+			// 縦長ディスプレイでは一つずつ、横長ディスプレイでは横並びで表示
 			&-list {
 				
-				@include flex-table;
+				@include for-landscape() {
+					@include flex-table;
+				}
 
 				&__item {
-					width: 40%;
-					max-height: 350px;
-
+					@include for-landscape() {
+						width: 40%;
+						max-height: 350px;
+					}
+					@include for-portrait() {
+						width: 70%;
+						max-height: 650px;
+					}		
+					
 					font-size: 1.2rem;
 					border: 1px solid #4d464f;
 					border-radius: 1%;

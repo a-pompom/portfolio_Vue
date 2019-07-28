@@ -54,8 +54,12 @@
 		}
 		
 		&__content {
+			margin-top: 20px;
 			
-			@include flex-center;
+			@include for-landscape() {
+				@include flex-center;
+			}
+			
 			
 			&--image {
 				

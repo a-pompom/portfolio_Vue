@@ -40,9 +40,7 @@
 				</div>
 				
 				<!-- テキスト要素 文字列の配列をpタグのリストへ展開して表示 -->
-				<div class="modal__content--info">
-
-					<div v-html="detailComment"></div>
+				<div class="modal__content--info" v-html="detailComment">
 				</div>
 
 				<!-- 使用した技術 -->
@@ -207,13 +205,21 @@
 		margin: 0;
 		border-bottom: 2px solid #f5f5f5;
 
+		// 縦長のときはタイトルが長くなるから改行した方がよさげ
+		@include for-portrait() {
+			height: 11%;
+			font-size: 1.2rem;
+			text-align: center;
+			margin-top: 20px;
+		}
+
 		&__close {
 			position: absolute;
 			right: 20px;
 			top: 0;
 			border-radius: 50%;
 
-			&:hover {
+			&:hover, &:active{
 				cursor: pointer;
 				background-color: #f5f5f5;
 			}
@@ -229,8 +235,25 @@
 
 		&--figure {
 			width: 100%;
-			max-height: 60%;
+			max-height: 50%;
+			
 			@include flex-between;
+		}
+
+		// 縦長のときは文字サイズを小さめにして左寄せにした方が見映えがよかった
+		@include for-landscape() {
+			&--info {
+				font-size: 1.3rem;
+				
+			}
+		}
+		@include for-portrait() {
+			&--info {
+				font-size: 1.1rem;
+				line-height: 140%;
+				text-align: left;
+				margin-top: 10%;
+			}
 		}
 	}
 
@@ -243,13 +266,26 @@
 
 
 	// キャプション
-	.figure-capture {
-		max-width: 60%;
+	// 縦長の場合はGitHubアイコンを小さめに
+	@include for-landscape() {
+		.figure-capture {
+			max-width: 75%;
+		}
+		.figure-git-hub {
+			width: 200px;
+			max-width: 20%;
+		}	
 	}
-	.figure-git-hub {
-		width: 200px;
-		max-width: 30%;
+	@include for-portrait() {
+		.figure-capture {
+			max-width: 85%;
+		}
+		.figure-git-hub {
+			width: 200px;
+			max-width: 10%;
+		}	
 	}
+	
 
 	// タグ
 	.item__icon-list {
@@ -295,8 +331,7 @@
 		margin-top: 5px;
 		cursor: pointer;
 		
-		//擬似要素
-		&:hover {
+		&:hover, &:active{
 			opacity: 0.8;
 		}
 
