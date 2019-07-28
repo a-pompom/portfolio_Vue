@@ -1,36 +1,52 @@
 <template>
-	<div
-        v-on:click="close"
-        v-show="visible"
-        class="modal__overlay">
-
-        <modal-content 
-            v-bind:params="params"
+    <div>
+        
+        <div
+            v-on:click.stop="close"
+            v-show="visible"
+            v-bind:id="modalId"
+            class="modal__overlay">
+        </div>
+        <div
+            v-bind:is="content"
+            v-bind="params"
             v-show="visible"
             v-on:close="close"
 
             class="modal__content">
-        </modal-content>
+        >
+        </div>
 
-	</div>
+    </div>
+	
+        
+
+	
 </template>
 
 <script>
 export default {
     props: { 
+            id: Number,
             params: Object,
             visible: Boolean,
             content: Object
             },
 
-    components: {
-        modalContent: this.content
+    computed: {
+        modalId() {
+            return "modal" + this.id;
+        }
     },
 
     methods: {
         close() {
-            this.$emit('closeEmit');
+            this.$emit('close');
         }
+    },
+
+    mounted() {
+        this.params.visible = this.visible;
     }
 
   

@@ -31,7 +31,16 @@
 						</figcaption>
 
 					</figure>
-					
+
+					<modal-component
+						v-bind:id=summaryIndex
+						v-bind:params="getModalParams(summaryIndex)"
+						v-bind:visible="currentModalIndex === summaryIndex"
+						v-bind:content="worksDetailContent"
+
+						v-on:close="closeModal"
+					>
+					</modal-component>					
 
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
@@ -40,7 +49,7 @@
 						- 概要要素を格納したJSON
 						- 詳細要素を格納したJSON
 					 -->
-					<works-detail-modal
+					<!-- <works-detail-modal
 						v-bind:currentModalIndex="currentModalIndex"
 						v-bind:index="summaryIndex"
 						v-bind:workSummary="workSummary"
@@ -48,7 +57,7 @@
 
 						v-on:modalClose="closeModal"
 						>
-					</works-detail-modal>
+					</works-detail-modal> -->
 
 				</li>
 			</ul>
@@ -62,6 +71,8 @@
 	import worksSummary from "../assets/works_data/works.json";
 	import worksDetail from "../assets/works_data/worksDetail.json";
 	import worksDetailModal from "./WorksDetailModal.vue";
+
+	import modalComponent from '../components/Modal.vue';
 	
 	export default {
 		
@@ -73,6 +84,7 @@
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
 				currentModalIndex: -1, //-1のときはモーダル非表示
+				worksDetailContent: worksDetailModal
 			};
 		},
 		
@@ -80,7 +92,8 @@
 		 * - モーダルコンポーネント
 		 */
 		components: {
-			worksDetailModal: worksDetailModal
+			//worksDetailModal: worksDetailModal,
+			modalComponent: modalComponent
 		},
 		
 		methods: {
@@ -95,6 +108,15 @@
 				this.currentModalIndex = index;
 			},
 
+			getModalParams(summaryIndex) {
+				return {
+					"currentModalIndex": this.currentModalIndex,
+					"index": summaryIndex,
+					"workSummary": this.worksSummary[summaryIndex],
+					"workDetail": worksDetail[summaryIndex]
+				};
+			},
+
 			/**
 			 * モーダル終了イベントがモーダルから発火されたときに呼ばれる処理
 			 * currentModalIndexを初期値に戻してモーダルを閉じる
@@ -102,7 +124,7 @@
 			closeModal() {
 				this.currentModalIndex = -1;
 			}
-		},
+		}
 		
 	}	
 </script>

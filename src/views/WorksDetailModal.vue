@@ -1,79 +1,63 @@
 <template>
 
 	<!-- モーダル要素 -->
-	<div class="works__detail">
+	<div class="works-detail">
+		<!-- ヘッダ タイトルと×(閉じる)ボタン -->
+		<div class="works-detai__header">
+			<h3>
+				{{ workSummary.appName }}
+			</h3>
 
-		<!-- オーバーレイ要素 クリックでモーダルを閉じる -->
-		<div 
-			v-show="isModalVisible"
-			v-on:click.stop="close"
-			class="works__modal-overlay">
+			<h2 v-on:click.stop="close" class="works-detail__header__close">×</h2>
 		</div>
+		
+		<!-- コンテンツ -->
+		<div class="works-detail__content">
 
-		<!-- モーダルの中身 -->
-		<div
-			v-show="isModalVisible"
-			v-bind:id="modalId"
-			class="works__modal">	
+			<!-- キャプション + GitHubへのリンク -->
+			<div class="works-detail__content--figure">
 
-			<!-- ヘッダ タイトルと×(閉じる)ボタン -->
-			<div class="modal__header">
-				<h3>
-					{{ workSummary.appName }}
-				</h3>
-
-				<h2 v-on:click.stop="close" class="modal__header__close">×</h2>
+				<img v-bind:src="workSummary.appImageSource" class="figure-capture">
+				
+				<a v-bind:href="workDetail.gitHubLink" class="figure-git-hub">
+					<img src="../../public/external/github.svg">
+				</a>
+				
 			</div>
 			
-			<!-- コンテンツ -->
-			<div class="modal__content">
-
-				<!-- キャプション + GitHubへのリンク -->
-				<div class="modal__content--figure">
-
-					<img v-bind:src="workSummary.appImageSource" class="figure-capture">
-					
-					<a v-bind:href="workDetail.gitHubLink" class="figure-git-hub">
-						<img src="../../public/external/github.svg">
-					</a>
-					
-				</div>
-				
-				<!-- テキスト要素 文字列の配列をpタグのリストへ展開して表示 -->
-				<div class="modal__content--info" v-html="detailComment">
-				</div>
-
-				<!-- 使用した技術 -->
-				<ul class="item__icon-list">
-				
-					<li 
-						v-for="(itemIcon) in workSummary.appIconList"
-						v-bind:key="itemIcon.id"
-						class="item__icon-list__image">
-						
-						<!-- アイコンが無い場合は代替テキストを表示 -->
-						<h4 v-if="itemIcon.imgSource === '' " class="item__icon-list__alt-text">{{ itemIcon.tagName }}</h4>
-						<img v-else v-bind:src="itemIcon.imgSource">
-						
-						<p>{{ itemIcon.tagName }}</p>
-						
-					</li>
-					
-				</ul>
-
-				<!-- フッタ 閉じるボタン -->
-				<div class="modal__footer">
-					<button
-						v-on:click.stop="close"
-						class="button--close"
-						>
-						Close
-					</button>
-				</div>
-
+			<!-- テキスト要素 文字列の配列をpタグのリストへ展開して表示 -->
+			<div class="works-detail__content--info" v-html="detailComment">
 			</div>
 
-		</div> <!-- /モーダルの中身 -->
+			<!-- 使用した技術 -->
+			<ul class="item__icon-list">
+			
+				<li 
+					v-for="(itemIcon) in workSummary.appIconList"
+					v-bind:key="itemIcon.id"
+					class="item__icon-list__image">
+					
+					<!-- アイコンが無い場合は代替テキストを表示 -->
+					<h4 v-if="itemIcon.imgSource === '' " class="item__icon-list__alt-text">{{ itemIcon.tagName }}</h4>
+					<img v-else v-bind:src="itemIcon.imgSource">
+					
+					<p>{{ itemIcon.tagName }}</p>
+					
+				</li>
+				
+			</ul>
+
+			<!-- フッタ 閉じるボタン -->
+			<div class="works-detail__footer">
+				<button
+					v-on:click.stop="close"
+					class="button--close"
+					>
+					Close
+				</button>
+			</div>
+		</div>
+			
 	</div> <!-- /モーダル -->
 	
 </template>
@@ -82,7 +66,7 @@
 	export default {
 		/**
 		 * - 現在モーダル表示対象となっているインデックス
-		 * - 各モーダルコンポーネントのID currentModalIndexと一致したらモーダル表示
+		 * - 各モーダルコンポーネントのID currentworks-detailIndexと一致したらモーダル表示
 		 * - 概要要素を格納したJSON
 		 * - 詳細表示要素を格納したJSON
 		 */
@@ -90,19 +74,11 @@
 			currentModalIndex: Number,
 			index: Number,
 			workSummary: Object,
-			workDetail: Object
+			workDetail: Object,
+			visible: Boolean
 		},
 
 		computed: {
-			// 各モーダルを識別するためのID
-			modalId() {
-				return "modal" + this.index;
-			},
-
-			// モーダルの表示・非表示を管理
-			isModalVisible() {
-				return this.currentModalIndex === this.index;
-			},
 
 			// Stringの配列をpタグへ展開
 			detailComment() {
@@ -123,9 +99,9 @@
 
 			// モーダル要素の幅・高さは描画されて初めて決定されるので、
 			// 描画後に位置を設定
-			isModalVisible() {
-				if (this.isModalVisible) {
-					this.setModalPosition();
+			visible() {
+				if (this.visible) {
+					this.setWorksDetailPosition();
 				}
 			}
 		},
@@ -135,21 +111,22 @@
 			 * 描画後に得られるモーダル要素の高さ・幅から
 			 * モーダルを中心に配置するための位置スタイルを設定
 			 */
-			setModalPosition() {
+			setWorksDetailPosition() {
 				this.$nextTick(() => {
 					//画面
 					let windowWidth = window.innerWidth;
 					let windowHeight = window.innerHeight;
 
 					//モーダル要素
-					let modalDOM = document.getElementById(this.modalId);
-					let modalHeight = modalDOM.offsetHeight;
-					let modalWidth = modalDOM.offsetWidth;
+					let worksDetailDOM = document.getElementById(this.works-detailId);
+					let worksDetailHeight = works-detailDOM.offsetHeight;
+					let worksDetailWidth = works-detailDOM.offsetWidth;
 
 					// モーダル要素の絶対位置を画面・モーダルの幅・高さをもとに算出し、更新
-					modalDOM.style.top = (windowHeight - modalHeight) / 2 + "px";
-					modalDOM.style.left = (windowWidth - modalWidth) / 2 + "px";
-					
+					worksDetailDOM.style.top = (windowHeight - works-detailHeight) / 2 + "px";
+					worksDetailDOM.style.left = (windowWidth - works-detailWidth) / 2 + "px";
+					console.log(windowHeight);
+					console.log(worksDetailHeight);
 				});
 				
 			},
@@ -159,10 +136,10 @@
 			 * 親要素へ非表示にするためのイベントを伝播
 			 */
 			close() {
-				if (!this.isModalVisible) {
+				if (!this.visible) {
 					return;
 				}
-				this.$emit("modalClose");
+				this.$emit("close");
 			}
 
 		}
@@ -173,20 +150,8 @@
 
 <style lang="scss" scoped>
 	
-	// モーダルのオーバーレイ, 本体
-	.works__modal-overlay {
-		z-index: 999;
-		position: fixed;
-		top:0;
-		left:0;
-		width:100%;
-		height:120%;
-		background-color:rgba(0,0,0,0.7);
-	}
-
-	.works__modal {
-		z-index: 9999;
-		position: fixed;
+	
+	.works-detail {
 		// 位置はvueで算出した後に設定
 		width:75%;
 		height: 80%;
@@ -198,7 +163,7 @@
 
 	//モーダルの各要素
 	//ヘッダ
-	.modal__header {
+	.works-detail__header {
 		width: 100%;
 		height: 7%;
 		margin: 0;
@@ -226,7 +191,7 @@
 	}
 
 	// コンテンツ
-	.modal__content {
+	.works-detail__content {
 		width: 100%;
 		height: 90%;
 		margin: 10px auto;
@@ -255,7 +220,7 @@
 	}
 
 	// フッタ
-	.modal__footer {
+	.works-detail__footer {
 		position: absolute;
 		bottom: 32px;
 		left: 20px;
