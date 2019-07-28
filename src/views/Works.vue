@@ -52,7 +52,6 @@
 						</figcaption>
 
 					</figure>
-					
 
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
@@ -61,15 +60,14 @@
 						- 概要要素を格納したJSON
 						- 詳細要素を格納したJSON
 					 -->
-					<works-detail-modal
-						v-bind:currentModalIndex="currentModalIndex"
-						v-bind:index="summaryIndex"
-						v-bind:workSummary="workSummary"
-						v-bind:workDetail="worksDetail[summaryIndex]"
+					<modal-component
+						v-bind:params="getModalParams(summaryIndex)"
+						v-bind:visible="currentModalIndex === summaryIndex"
+						v-bind:content="worksDetailContent"
 
-						v-on:modalClose="closeModal"
-						>
-					</works-detail-modal>
+						v-on:close="closeModal"
+					>
+					</modal-component>					
 
 				</li>
 			</ul>
@@ -83,6 +81,8 @@
 	import worksSummary from "../assets/works_data/works.json";
 	import worksDetail from "../assets/works_data/worksDetail.json";
 	import worksDetailModal from "./WorksDetailModal.vue";
+
+	import modalComponent from '../components/Modal.vue';
 	
 	export default {
 		
@@ -94,7 +94,8 @@
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
 				currentModalIndex: -1, //-1のときはモーダル非表示
-				selectedCategory: ""
+				selectedCategory: "",
+				worksDetailContent: worksDetailModal
 			};
 		},
 
@@ -129,7 +130,7 @@
 		 * - モーダルコンポーネント
 		 */
 		components: {
-			worksDetailModal: worksDetailModal
+			modalComponent: modalComponent
 		},
 		
 		methods: {
@@ -142,6 +143,18 @@
 			 */
 			clickWork(index) {
 				this.currentModalIndex = index;
+			},
+
+			/**
+			 * モーダル要素へ渡す引数オブジェクトを生成する
+			 */
+			getModalParams(summaryIndex) {
+				return {
+					"currentModalIndex": this.currentModalIndex,
+					"index": summaryIndex,
+					"workSummary": this.worksSummary[summaryIndex],
+					"workDetail": worksDetail[summaryIndex]
+				};
 			},
 
 			/**
@@ -198,7 +211,7 @@
 
 				return appCategoryArray;
 			}
-		},
+		}
 		
 	}	
 </script>
