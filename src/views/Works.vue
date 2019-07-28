@@ -8,8 +8,14 @@
 
 		<div class="works__category">
 			<ul class="works__cateogry-list">
-				<li class="works__category-list__item">
-					頑張って表示させたい。
+				<!-- カテゴリ要素 -->
+				<li 
+					v-for="category in worksCategoryArray"
+					v-bind:key="category.id"
+
+					class="works__category-list__item">
+					<img v-bind:src="category.imageSource">
+					<p>{{ category.name }}</p>
 				</li>
 			</ul>	
 		</div>
@@ -83,6 +89,13 @@
 				currentModalIndex: -1, //-1のときはモーダル非表示
 			};
 		},
+
+		computed: {
+			// カテゴリー一覧
+			worksCategoryArray() {
+				return this.getCategoryFromTags();
+			}
+		},
 		
 		/**
 		 * - モーダルコンポーネント
@@ -109,6 +122,41 @@
 			 */
 			closeModal() {
 				this.currentModalIndex = -1;
+			},
+
+			/**
+			 * アプリのタグ一覧をもとに
+			 * カテゴリリストを生成する
+			 */
+			getCategoryFromTags() {
+
+				let categoryArray = [];
+				// 重複除外のため、登録済みのカテゴリ名を管理
+				let categoryNameArray = [];
+
+				// アプリのappIconListプロパティにカテゴリ情報が含まれているので、ループで取得
+				this.worksSummary.forEach((workSummary) => {
+
+					workSummary.appIconList.forEach((category) => {
+						// 既に登録済みでない場合、id, カテゴリ名, 画像ソースを登録
+						if (!categoryNameArray.includes(category.tagName)) {
+
+							categoryArray.push({
+								id: categoryNameArray.length,
+								name: category.tagName,
+								imageSource: category.imgSource
+							});
+
+							//登録したら重複除外用のリストへタグ名を登録
+							categoryNameArray.push(category.tagName);
+
+						}
+						
+					});
+
+				});
+
+				return categoryArray;
 			}
 		},
 		
