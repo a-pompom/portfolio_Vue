@@ -33,10 +33,23 @@
 		margin: 5px auto;
 		
 		&--nav-list {
-			
-			@include flex-between;
+			width: 90%;
+
+			// 縦長では2つずつ、横長では全体を横並びで表示
+			@include for-landscape() {
+				@include flex-between;
+			}
+			@include for-portrait() {
+				@include flex-table;
+			}
 			
 			&__item {
+				// 縦長のときは2つずつかつ文字を中央寄せになるようレイアウト調整
+				@include for-portrait() {
+					width: 45%;
+					font-size: 2.3rem;
+					text-align: center;
+				}
 				
 				font-size: 2.6rem;
 				border-bottom: 1px solid #4d464f;
