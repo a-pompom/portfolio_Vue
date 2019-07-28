@@ -55,6 +55,15 @@
 					
 				</ul>
 
+				<div class="modal__footer">
+					<button
+						v-on:click.stop="close"
+						class="button--close"
+						>
+						Close
+					</button>
+				</div>
+
 			</div>
 
 			
@@ -212,6 +221,12 @@
 		}
 	}
 
+	.modal__footer {
+		position: absolute;
+		bottom: 32px;
+		left: 20px;
+	}
+
 
 	.figure-capture {
 		max-width: 60%;
@@ -242,6 +257,32 @@
 			height: 32px;
 			margin-top: 0;
 		}
+	}
+
+	.button--close {
+		width: 100px;
+		background-color: #adadad;
+		color: #fff;
+		//文字のスタイル
+		text-decoration: none;
+		text-align: center;
+		font-size: 1.3rem;
+		line-height: 1.5;
+		
+		//ボタンの枠のスタイル
+		border-radius: 5px;
+		
+		//ボタンの配置のスタイル
+		display: inline-block;
+		margin-right: 20px;
+		margin-top: 5px;
+		cursor: pointer;
+		
+		//擬似要素
+		&:hover {
+			opacity: 0.8;
+		}
+
 	}
 
 </style>
