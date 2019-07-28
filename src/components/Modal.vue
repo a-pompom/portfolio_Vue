@@ -43,10 +43,6 @@ export default {
         close() {
             this.$emit('close');
         }
-    },
-
-    mounted() {
-        this.params.visible = this.visible;
     }
 
   

@@ -74,8 +74,7 @@
 			currentModalIndex: Number,
 			index: Number,
 			workSummary: Object,
-			workDetail: Object,
-			visible: Boolean
+			workDetail: Object
 		},
 
 		computed: {
@@ -91,6 +90,10 @@
 				})
 
 				return result;
+			},
+
+			visible() {
+				return this.currentModalIndex === this.index;
 			}
 
 		},
@@ -118,13 +121,13 @@
 					let windowHeight = window.innerHeight;
 
 					//モーダル要素
-					let worksDetailDOM = document.getElementById(this.works-detailId);
-					let worksDetailHeight = works-detailDOM.offsetHeight;
-					let worksDetailWidth = works-detailDOM.offsetWidth;
+					let worksDetailDOM = document.getElementsByClassName("works-detail")[this.index];
+					let worksDetailHeight = worksDetailDOM.offsetHeight;
+					let worksDetailWidth = worksDetailDOM.offsetWidth;
 
 					// モーダル要素の絶対位置を画面・モーダルの幅・高さをもとに算出し、更新
-					worksDetailDOM.style.top = (windowHeight - works-detailHeight) / 2 + "px";
-					worksDetailDOM.style.left = (windowWidth - works-detailWidth) / 2 + "px";
+					worksDetailDOM.style.top = (windowHeight - worksDetailHeight) / 2 + "px";
+					worksDetailDOM.style.left = (windowWidth - worksDetailWidth) / 2 + "px";
 					console.log(windowHeight);
 					console.log(worksDetailHeight);
 				});
