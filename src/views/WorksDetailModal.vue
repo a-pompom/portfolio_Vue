@@ -101,7 +101,6 @@
 
 			// モーダルの表示・非表示を管理
 			isModalVisible() {
-				console.log(this.currentModalIndex + ' : ' + this.index);
 				return this.currentModalIndex === this.index;
 			},
 
