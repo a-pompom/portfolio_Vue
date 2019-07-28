@@ -5,6 +5,14 @@
 		<div class="works__title">
 			<h1>つくったもの</h1>
 		</div>
+
+		<div class="works__category">
+			<ul class="works__cateogry-list">
+				<li class="works__category-list__item">
+					頑張って表示させたい。
+				</li>
+			</ul>	
+		</div>
 		
 		<div class="works__content">
 			
