@@ -67,9 +67,7 @@ export default {
 			
 			& img {
 				display: block;
-				width: 150px;
-				max-width: 40%;
-
+				width: 120px;
 				margin: 5px auto;
 			}
 			

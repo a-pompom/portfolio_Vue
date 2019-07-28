@@ -236,22 +236,20 @@
 		&--figure {
 			width: 100%;
 			max-height: 50%;
-			
+			@include for-landscape() {
+				max-height: 65%;
+			}
 			@include flex-between;
 		}
 
-		// 縦長のときは文字サイズを小さめにして左寄せにした方が見映えがよかった
-		@include for-landscape() {
-			&--info {
-				font-size: 1.3rem;
-				
-			}
-		}
-		@include for-portrait() {
-			&--info {
-				font-size: 1.1rem;
-				line-height: 140%;
-				text-align: left;
+		&--info {
+			font-size: 1.1rem;
+			line-height: 140%;
+			text-align: left;
+
+			border-top: 2px solid #f5f5f5;
+			margin-top: 10px;
+			@include for-portrait() {
 				margin-top: 10%;
 			}
 		}
