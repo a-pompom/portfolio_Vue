@@ -7,15 +7,22 @@
 		</div>
 
 		<div class="works__category">
-			<ul class="works__cateogry-list">
+			<ul class="works__category-list">
 				<!-- カテゴリ要素 -->
 				<li 
 					v-for="category in worksCategoryArray"
 					v-bind:key="category.id"
 
 					class="works__category-list__item">
-					<img v-bind:src="category.imageSource">
+
+					<!-- アイコンが無い場合は代替テキストを表示 -->
+					<h4 v-if="category.imageSource === '' ">
+						{{ category.name }}
+					</h4>
+					<img v-else v-bind:src="category.imageSource">
+
 					<p>{{ category.name }}</p>
+
 				</li>
 			</ul>	
 		</div>
@@ -179,6 +186,29 @@
 			margin-bottom: 10px;
 			
 			border-bottom: 1px solid #000;
+		}
+
+		// カテゴリ一覧
+		&__category {
+			width: 50%;
+			height: 64px;
+			margin: 20px auto;
+
+			&-list {
+				@include flex-between;
+				&__item {
+					cursor: pointer;
+					
+					& img {
+						width: 48px;
+					}
+					& h4 {
+						height: 30px;
+					}
+					
+				}
+			}
+
 		}
 		
 		// コンテンツ 各要素を枠で囲ってリスト形式で表示させる
