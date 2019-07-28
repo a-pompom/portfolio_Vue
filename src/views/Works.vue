@@ -34,7 +34,7 @@
 					 詳細をモーダルで表示
 				 -->
 				<li 
-					v-for="(workSummary, summaryIndex) in worksSummary"
+					v-for="(workSummary, summaryIndex) in filteredWorksSummary"
 					v-bind:key="workSummary.id"
 
 					v-on:click="clickWork(summaryIndex)"
@@ -94,6 +94,7 @@
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
 				currentModalIndex: -1, //-1のときはモーダル非表示
+				selectedCategory: ""
 			};
 		},
 
@@ -101,6 +102,26 @@
 			// カテゴリー一覧
 			worksCategoryArray() {
 				return this.getCategoryFromTags();
+			},
+
+			filteredWorksSummary() {
+				// 未フィルタリングの場合は全件描画
+				if (this.selectedCategory === "") {
+					return this.worksSummary;
+				}
+
+				let filteredResult = [];
+				
+				this.worksSummary.forEach((workSummary) => {
+					let targetCategoryArray = this.getTagListFromApp(workSummary.id);
+
+					if (targetCategoryArray.includes(this.selectedCategory)) {
+						filteredResult.push(workSummary);
+					}
+				});
+
+				return filteredResult;
+
 			}
 		},
 		
@@ -164,6 +185,18 @@
 				});
 
 				return categoryArray;
+			},
+
+			/**
+			 * アプリに設定されたタグの一覧を配列形式で取得する
+			 */
+			getTagListFromApp(appId) {
+				let appCategoryArray = [];
+				worksSummary[appId].appIconList.forEach((element) => {
+					appCategoryArray.push(element.tagName);
+				});
+
+				return appCategoryArray;
 			}
 		},
 		
@@ -198,7 +231,7 @@
 				@include flex-between;
 				&__item {
 					cursor: pointer;
-					
+
 					& img {
 						width: 48px;
 					}
