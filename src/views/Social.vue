@@ -8,7 +8,8 @@
 		<div class="social__content">
 			
 			<ul class="social__content-list">
-			
+				
+				<!-- 各活動場所 要素クリックで当該箇所へ遷移 -->
 				<li class="social__content-list__item">
 				
 					<a href="https://github.com/a-pompom">

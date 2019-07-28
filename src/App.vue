@@ -1,7 +1,9 @@
 <template>
 	<div id="app">
+
 		<div id="nav" class="header">
 		
+			<!-- ナビゲーションメニュー -->
 			<ul class="header--nav-list">
 				<li class="header--nav-list__item">
 					<router-link to="/">Home</router-link>

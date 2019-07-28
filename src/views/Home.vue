@@ -9,6 +9,7 @@
 			<img src="../assets/home.png">
 		</div>
 		
+		<!-- TwitterとGitHubリンク -->
 		<div class="top__icon-list">
 			<a href="https://twitter.com/a_pompomP">
 				<img src="../../public/external/twitter.svg">
@@ -54,6 +55,7 @@ export default {
 			margin: 10px auto;
 		}
 		
+		//アイコン
 		&__icon-list {
 			@include flex-center;
 			

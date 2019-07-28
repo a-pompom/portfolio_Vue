@@ -7,6 +7,7 @@
 		
 		<div class="profile__content">
 			
+			<!-- アイコン -->
 			<div class="profile__content--image">
 			
 				<img src="../assets/profile.jpg">
@@ -16,6 +17,7 @@
 				<p>ノリと勢いで描いたアイコン</p>
 			</div>
 			
+			<!-- 自己紹介テキスト -->
 			<div class="profile__content--text">
 				<h3>名前: &nbsp; a-pompom</h3>
 				<p>pompomは隣の黄色い彼からきています。</p>
