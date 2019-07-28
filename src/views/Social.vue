@@ -13,7 +13,7 @@
 				
 					<a href="https://github.com/a-pompom">
 						<div class="item__header">
-							<img src="../assets/external/github.svg">
+							<img src="../../public/external/github.svg">
 							<h3>GitHub</h3>
 						</div>
 						<p>
@@ -27,7 +27,7 @@
 				
 					<a href="https://qiita.com/a-pompom">
 						<div class="item__header">
-							<img src="../assets/external/qiita.svg">
+							<img src="../../public/external/qiita.svg">
 							<h3>Qiita</h3>
 						</div>
 						<p>
@@ -41,7 +41,7 @@
 				
 					<a href="https://twitter.com/a_pompomP">
 						<div class="item__header">
-							<img src="../assets/external/twitter.svg">
+							<img src="../../public/external/twitter.svg">
 							<h3>Twitter</h3>
 						</div>
 						<p>

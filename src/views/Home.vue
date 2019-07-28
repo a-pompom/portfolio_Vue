@@ -11,11 +11,11 @@
 		
 		<div class="top__icon-list">
 			<a href="https://twitter.com/a_pompomP">
-				<img src="../assets/external/twitter.svg">
+				<img src="../../public/external/twitter.svg">
 			</a>
 			
 			<a href="https://github.com/a-pompom">
-				<img src="../assets/external/github.svg">
+				<img src="../../public/external/github.svg">
 			</a>
 			
 		</div>
