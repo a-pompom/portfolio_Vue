@@ -1,18 +1,22 @@
 <template>
 
+	<!-- モーダル要素 -->
 	<div class="works__detail">
+
+		<!-- オーバーレイ要素 クリックでモーダルを閉じる -->
 		<div 
 			v-show="isModalVisible"
 			v-on:click.stop="close"
 			class="works__modal-overlay">
 		</div>
 
+		<!-- モーダルの中身 -->
 		<div
-			 
 			v-show="isModalVisible"
 			v-bind:id="modalId"
 			class="works__modal">	
 
+			<!-- ヘッダ タイトルと×(閉じる)ボタン -->
 			<div class="modal__header">
 				<h3>
 					{{ workSummary.appName }}
@@ -21,9 +25,12 @@
 				<h2 v-on:click.stop="close" class="modal__header__close">×</h2>
 			</div>
 			
+			<!-- コンテンツ -->
 			<div class="modal__content">
 
+				<!-- キャプション + GitHubへのリンク -->
 				<div class="modal__content--figure">
+
 					<img v-bind:src="workSummary.appImageSource" class="figure-capture">
 					
 					<a v-bind:href="workDetail.gitHubLink" class="figure-git-hub">
@@ -32,7 +39,7 @@
 					
 				</div>
 				
-
+				<!-- テキスト要素 文字列の配列をpタグのリストへ展開して表示 -->
 				<div class="modal__content--info">
 
 					<div v-html="detailComment"></div>
@@ -46,6 +53,7 @@
 						v-bind:key="itemIcon.id"
 						class="item__icon-list__image">
 						
+						<!-- アイコンが無い場合は代替テキストを表示 -->
 						<h4 v-if="itemIcon.imgSource === '' " class="item__icon-list__alt-text">{{ itemIcon.tagName }}</h4>
 						<img v-else v-bind:src="itemIcon.imgSource">
 						
@@ -55,6 +63,7 @@
 					
 				</ul>
 
+				<!-- フッタ 閉じるボタン -->
 				<div class="modal__footer">
 					<button
 						v-on:click.stop="close"
@@ -66,18 +75,12 @@
 
 			</div>
 
-			
-			
-
-		</div>
-	</div>
+		</div> <!-- /モーダルの中身 -->
+	</div> <!-- /モーダル -->
 	
 </template>
 
 <script>
-	
-
-
 	export default {
 		/**
 		 * - 現在モーダル表示対象となっているインデックス
@@ -104,8 +107,10 @@
 				return this.currentModalIndex === this.index;
 			},
 
+			// Stringの配列をpタグへ展開
 			detailComment() {
 				let result = "";
+
 				this.workDetail.commentArray.forEach((element) => {
 					result += "<p>";
 					result += element;
@@ -152,6 +157,10 @@
 				
 			},
 
+			/**
+			 * モーダルを閉じるためのイベントが購読されたときに発火
+			 * 親要素へ非表示にするためのイベントを伝播
+			 */
 			close() {
 				if (!this.isModalVisible) {
 					return;
@@ -167,6 +176,7 @@
 
 <style lang="scss" scoped>
 	
+	// モーダルのオーバーレイ, 本体
 	.works__modal-overlay {
 		z-index: 999;
 		position: fixed;
@@ -189,6 +199,8 @@
 		
 	}
 
+	//モーダルの各要素
+	//ヘッダ
 	.modal__header {
 		width: 100%;
 		height: 7%;
@@ -208,6 +220,7 @@
 		}
 	}
 
+	// コンテンツ
 	.modal__content {
 		width: 100%;
 		height: 90%;
@@ -221,6 +234,7 @@
 		}
 	}
 
+	// フッタ
 	.modal__footer {
 		position: absolute;
 		bottom: 32px;
@@ -228,6 +242,7 @@
 	}
 
 
+	// キャプション
 	.figure-capture {
 		max-width: 60%;
 	}
@@ -236,6 +251,7 @@
 		max-width: 30%;
 	}
 
+	// タグ
 	.item__icon-list {
 		position: absolute;
 		bottom: 20px;
@@ -259,6 +275,7 @@
 		}
 	}
 
+	//閉じるボタン
 	.button--close {
 		width: 100px;
 		background-color: #adadad;
