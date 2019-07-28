@@ -1,7 +1,8 @@
 <template>
 
-	<!-- モーダル要素 -->
+	<!-- 詳細要素 -->
 	<div class="works-detail">
+
 		<!-- ヘッダ タイトルと×(閉じる)ボタン -->
 		<div class="works-detai__header">
 			<h3>
@@ -58,7 +59,7 @@
 			</div>
 		</div>
 			
-	</div> <!-- /モーダル -->
+	</div> <!-- /詳細要素 -->
 	
 </template>
 
@@ -92,6 +93,7 @@
 				return result;
 			},
 
+			// モーダル要素である詳細コンポーネントで可視か否か
 			visible() {
 				return this.currentModalIndex === this.index;
 			}
@@ -110,6 +112,7 @@
 		},
 
 		methods: {
+
 			/**
 			 * 描画後に得られるモーダル要素の高さ・幅から
 			 * モーダルを中心に配置するための位置スタイルを設定
@@ -120,16 +123,14 @@
 					let windowWidth = window.innerWidth;
 					let windowHeight = window.innerHeight;
 
-					//モーダル要素
+					//詳細要素
 					let worksDetailDOM = document.getElementsByClassName("works-detail")[this.index];
 					let worksDetailHeight = worksDetailDOM.offsetHeight;
 					let worksDetailWidth = worksDetailDOM.offsetWidth;
 
-					// モーダル要素の絶対位置を画面・モーダルの幅・高さをもとに算出し、更新
+					// 詳細要素の絶対位置を画面・詳細要素の幅・高さをもとに算出し、更新
 					worksDetailDOM.style.top = (windowHeight - worksDetailHeight) / 2 + "px";
 					worksDetailDOM.style.left = (windowWidth - worksDetailWidth) / 2 + "px";
-					console.log(windowHeight);
-					console.log(worksDetailHeight);
 				});
 				
 			},

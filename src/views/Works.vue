@@ -32,16 +32,6 @@
 
 					</figure>
 
-					<modal-component
-						v-bind:id=summaryIndex
-						v-bind:params="getModalParams(summaryIndex)"
-						v-bind:visible="currentModalIndex === summaryIndex"
-						v-bind:content="worksDetailContent"
-
-						v-on:close="closeModal"
-					>
-					</modal-component>					
-
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
 						- ループインデックス 配列で表示フラグを管理するとwatchイベントでelementの変更を検知できないのでcurrentIndexと
@@ -49,15 +39,14 @@
 						- 概要要素を格納したJSON
 						- 詳細要素を格納したJSON
 					 -->
-					<!-- <works-detail-modal
-						v-bind:currentModalIndex="currentModalIndex"
-						v-bind:index="summaryIndex"
-						v-bind:workSummary="workSummary"
-						v-bind:workDetail="worksDetail[summaryIndex]"
+					<modal-component
+						v-bind:params="getModalParams(summaryIndex)"
+						v-bind:visible="currentModalIndex === summaryIndex"
+						v-bind:content="worksDetailContent"
 
-						v-on:modalClose="closeModal"
-						>
-					</works-detail-modal> -->
+						v-on:close="closeModal"
+					>
+					</modal-component>					
 
 				</li>
 			</ul>
@@ -92,7 +81,6 @@
 		 * - モーダルコンポーネント
 		 */
 		components: {
-			//worksDetailModal: worksDetailModal,
 			modalComponent: modalComponent
 		},
 		
@@ -108,6 +96,9 @@
 				this.currentModalIndex = index;
 			},
 
+			/**
+			 * モーダル要素へ渡す引数オブジェクトを生成する
+			 */
 			getModalParams(summaryIndex) {
 				return {
 					"currentModalIndex": this.currentModalIndex,
