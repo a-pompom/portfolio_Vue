@@ -39,14 +39,19 @@
 						- 概要要素を格納したJSON
 						- 詳細要素を格納したJSON
 					 -->
-					<modal-component
-						v-bind:params="getModalParams(summaryIndex)"
-						v-bind:visible="currentModalIndex === summaryIndex"
-						v-bind:content="worksDetailContent"
+					 <transition name="modal">
 
-						v-on:close="closeModal"
-					>
-					</modal-component>					
+						 <modal-component
+							v-bind:params="getModalParams(summaryIndex)"
+							v-bind:visible="currentModalIndex === summaryIndex"
+							v-bind:content="worksDetailContent"
+
+							v-on:close="closeModal"
+						>
+						</modal-component>					
+
+					 </transition>
+					
 
 				</li>
 			</ul>
@@ -219,5 +224,10 @@
 		}
 	}
 	
-	
+	.modal-enter-active, .modal-leave-active {
+		transition: opacity .5s;
+	}
+	.modal-enter, .fade-leave {
+		opacity: 0;
+	}
 </style>
