@@ -25,6 +25,8 @@
 					<p>{{ category.name }}</p>
 
 				</li>
+
+				<!-- 全カテゴリ表示 -->
 				<li 
 					v-on:click="selectedCategory = ''"
 					class="works__category-list__item">
@@ -101,7 +103,7 @@
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
 				currentModalIndex: -1, //-1のときはモーダル非表示				
-				worksDetailContent: worksDetailModal,
+				worksDetailContent: worksDetailModal, //モーダル要素として渡すコンポーネント 引数として渡される
 
 				selectedCategory: "",
 			};
@@ -113,8 +115,8 @@
 				return this.getCategoryFromTags();
 			},
 
+			// カテゴリ選択で絞り込まれたアプリ一覧
 			filteredWorksSummary() {
-				console.log('filtered Array called');
 				// 未フィルタリングの場合は全件描画
 				if (this.selectedCategory === "") {
 					return this.worksSummary;
@@ -122,6 +124,9 @@
 
 				let filteredResult = [];
 				
+				// 各アプリについて、選択されたカテゴリが含まれるか検証し、含むもののみをフィルタ結果に追加
+				// カテゴリ選択は頻繁に呼び出されるものでもなく、副次的な要素なので、
+				// dataプロパティを無闇に増やすのではなく、アプリ一覧から動的に生成するよう処理
 				this.worksSummary.forEach((workSummary) => {
 					let targetCategoryArray = this.getTagListFromApp(workSummary.id);
 
@@ -188,11 +193,12 @@
 				this.worksSummary.forEach((workSummary) => {
 
 					workSummary.appIconList.forEach((category) => {
+
 						// 既に登録済みでない場合、id, カテゴリ名, 画像ソースを登録
 						if (!categoryNameArray.includes(category.tagName)) {
 
 							categoryArray.push({
-								id: categoryNameArray.length,
+								id: categoryNameArray.length, // ループの度にカテゴリの要素数は更新されるのでユニーク要素として利用
 								name: category.tagName,
 								imageSource: category.imgSource
 							});
