@@ -10,11 +10,10 @@
         ・closeイベントを設定
             →終了イベントがモーダルコンポーネントから親コンポーネントへ伝播されるので、終了処理を親コンポーネントへ記述
  -->
-    <div>
+    <div v-show="visible">
         <!-- オーバーレイ要素 要素クリックでモーダルを閉じる -->
         <div
             v-on:click.stop="close"
-            v-show="visible"
             class="modal__overlay">
         </div>
 
@@ -27,8 +26,6 @@
         <div
             v-bind:is="content"
             v-bind="params"
-
-            v-show="visible"
             v-on:close="close"
 
             class="modal__content">
