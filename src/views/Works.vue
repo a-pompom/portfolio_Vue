@@ -12,6 +12,7 @@
 				<li 
 					v-for="category in worksCategoryArray"
 					v-bind:key="category.id"
+					v-on:click="selectedCategory = category.name"
 
 					class="works__category-list__item">
 
@@ -23,6 +24,12 @@
 
 					<p>{{ category.name }}</p>
 
+				</li>
+				<li 
+					v-on:click="selectedCategory = ''"
+					class="works__category-list__item">
+					<h4>ALL</h4>
+					
 				</li>
 			</ul>	
 		</div>
@@ -93,9 +100,10 @@
 			return {
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
-				currentModalIndex: -1, //-1のときはモーダル非表示
+				currentModalIndex: -1, //-1のときはモーダル非表示				
+				worksDetailContent: worksDetailModal,
+
 				selectedCategory: "",
-				worksDetailContent: worksDetailModal
 			};
 		},
 
@@ -106,6 +114,7 @@
 			},
 
 			filteredWorksSummary() {
+				console.log('filtered Array called');
 				// 未フィルタリングの場合は全件描画
 				if (this.selectedCategory === "") {
 					return this.worksSummary;
