@@ -24,11 +24,11 @@
 						<img v-bind:src="workSummary.appImageSource">
 						<h3>{{ workSummary.appName }}</h3>
 
-						<figcaption class="item-mask">
+						<!-- <figcaption class="item-mask">
 							<h2 class="item-mask--text">
 								Read More...
 							</h2>
-						</figcaption>
+						</figcaption> -->
 
 					</figure>
 
@@ -39,18 +39,16 @@
 						- 概要要素を格納したJSON
 						- 詳細要素を格納したJSON
 					 -->
-					 <transition name="modal">
+					<modal-component
+						v-bind:params="getModalParams(summaryIndex)"
+						v-bind:visible="currentModalIndex === summaryIndex"
+						v-bind:content="worksDetailContent"
 
-						 <modal-component
-							v-bind:params="getModalParams(summaryIndex)"
-							v-bind:visible="currentModalIndex === summaryIndex"
-							v-bind:content="worksDetailContent"
+						v-on:close="closeModal"
+					>
+					</modal-component>					
 
-							v-on:close="closeModal"
-						>
-						</modal-component>					
-
-					 </transition>
+					 
 					
 
 				</li>
@@ -224,10 +222,5 @@
 		}
 	}
 	
-	.modal-enter-active, .modal-leave-active {
-		transition: opacity .5s;
-	}
-	.modal-enter, .fade-leave {
-		opacity: 0;
-	}
+
 </style>

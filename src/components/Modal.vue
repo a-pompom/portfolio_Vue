@@ -10,6 +10,7 @@
         ・closeイベントを設定
             →終了イベントがモーダルコンポーネントから親コンポーネントへ伝播されるので、終了処理を親コンポーネントへ記述
  -->
+    <transition name="modal">
     <div v-show="visible">
         <!-- オーバーレイ要素 要素クリックでモーダルを閉じる -->
         <div
@@ -32,6 +33,7 @@
         </div>
 
     </div>
+    </transition>
 		
 </template>
 
@@ -76,5 +78,16 @@ export default {
 		z-index: 9999;
 		position: fixed;
 	}
+
+    // モーダルのトランジション要素
+    .modal-enter-active, .modal-leave-active {
+		transition: opacity .3s;
+	}
+	.modal-enter, .modal-leave {
+		opacity: 0.3;
+	}
+    .modal-enter-to, .modal-leave-to {
+        opacity: 1;
+    }
 	
 </style>
