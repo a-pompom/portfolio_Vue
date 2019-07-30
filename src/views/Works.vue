@@ -38,7 +38,8 @@
 		
 		<div class="works__content">
 			
-			<ul class="works__content-list">
+			<!-- 一覧要素 フィルタリングをアニメーションさせるため、ulをtransition-groupで表現 -->
+			<transition-group tag="ul" name="filter" class="works__content-list">
 				<!-- 各要素へフォーカス + クリックで
 					 詳細をモーダルで表示
 				 -->
@@ -79,7 +80,7 @@
 					</modal-component>					
 
 				</li>
-			</ul>
+			</transition-group>
 			
 		</div> <!-- /content -->
 		
@@ -351,6 +352,14 @@
 			opacity: 1.0;
 			padding-top: 25%;
 		}
+	}
+
+	// カテゴリフィルタリング
+	.filter-enter-active, .filter-leave-actice, .filter-move {
+		transition: opacity 0.5s, transform 1.2s;
+	}
+	.filter-enter, .filter-leave-to {
+		opacity: 0;
 	}
 	
 	
