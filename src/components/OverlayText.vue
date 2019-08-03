@@ -88,6 +88,7 @@ export default {
     }
     .overlay-enter-active, .overlay-leave-active {
         transition: opacity 1.1s;
+        cursor: pointer;
            
     }
 
