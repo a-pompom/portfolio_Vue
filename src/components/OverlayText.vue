@@ -2,18 +2,32 @@
     <!-- 
         オーバーレイテキストコンポーネント 要素にフォーカスで薄黒のマスクをかけてテキストを表示します
         以下の手順で利用します。
-        - オーバーレイテキストを表示させたいクラスの子要素として当該コンポーネントを設定
+        - オーバーレイテキストを設定したい要素を当該コンポーネントのslot要素として記述します
         - propsとして「textContent」をStringで渡します
-        ex) <overlay-text
-                v-bind:textContent="'Read More...'"
-            >
-            </overlay-text>
+        - デフォルトのトランジションとして、ホバー時に1.1sで表示するようにしています
      -->
-    <div class="item-mask">
-        <h2 class="item-mask--text">
-            {{ textContent }}
-        </h2>
-	</div>
+     <div
+        v-on:mouseover="visible = true"
+        v-on:mouseleave="visible = false" 
+        class="item">
+        
+        <!-- オーバーレイが覆いかぶさる要素 -->
+        <slot></slot>
+
+        <!-- オーバーレイ要素 フォーカス時に表示し、フォーカスが外れると非表示となる -->
+        <transition name="overlay">
+            <div
+               v-show="visible"
+
+               class="item-mask">
+                   <h2 class="item-mask--text">
+                       {{ textContent }}
+                   </h2>
+            </div>
+        </transition>
+         
+     </div>
+    
 
 </template>
 
@@ -22,21 +36,28 @@ export default {
 
     props: {
         textContent: String
+    },
+
+    data() {
+        return {
+            visible: false
+        }
     }
+
 
 }
 </script>
 
 <style lang="scss" scoped>
 
-    // itemクラスの中身はオーバーレイコンポーネントを子に持つクラスで定義が必要
+    // オーバーレイが覆いかぶさる要素
 	.item{
-		// width: 100%;
-		// height: 100%;
-		// margin: 0;
+		width: 100%;
+		height: 100%;
+		margin: 0;
 
-		// position: relative;
-  		// overflow: hidden;
+		position: relative;
+  		overflow: hidden;
 
 		// オーバーレイ要素 薄黒のマスクをかける
 		&-mask {
@@ -49,11 +70,9 @@ export default {
 			height: 100%;
 			background: rgba(0,0,0,.6);
 
-			transition: .3s;
-			opacity: 0;
-
             // フォーカスで表示されるテキスト
 			&--text {
+                padding-top: 25%;
 				width: 100%;
 				height: 100%;
 				color: #fff;
@@ -61,12 +80,15 @@ export default {
 
             }
 		}
-
-		&:hover &-mask {
-			opacity: 1.0;
-			padding-top: 25%;
-		}
     }
 
+    // アニメーション
+     .overlay-enter, .overlay-leave-to {
+        opacity: 0;
+    }
+    .overlay-enter-active, .overlay-leave-active {
+        transition: opacity 1.1s;
+           
+    }
 
 </style>
