@@ -20,17 +20,13 @@
 					class="works__content-list__item">
 					
 					<!-- 概要(キャプチャ,  アプリ名) -->
-					<figure class="item">
+					<div class="item">
 						<img v-bind:src="workSummary.appImageSource">
 						<h3>{{ workSummary.appName }}</h3>
 
-						<!-- <figcaption class="item-mask">
-							<h2 class="item-mask--text">
-								Read More...
-							</h2>
-						</figcaption> -->
+						<overlay-text></overlay-text>
 
-					</figure>
+					</div>
 
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
@@ -64,6 +60,7 @@
 	import worksDetail from "../assets/works_data/worksDetail.json";
 	import worksDetailModal from "./WorksDetailModal.vue";
 
+	import overlayText from '../components/OverlayText.vue';
 	import modalComponent from '../components/Modal.vue';
 	
 	export default {
@@ -81,9 +78,11 @@
 		},
 		
 		/**
+		 * - オーバーレイテキスト
 		 * - モーダルコンポーネント
 		 */
 		components: {
+			overlayText: overlayText,
 			modalComponent: modalComponent
 		},
 		
