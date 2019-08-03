@@ -1,8 +1,17 @@
 <template>
-    
+    <!-- 
+        オーバーレイテキストコンポーネント 要素にフォーカスで薄黒のマスクをかけてテキストを表示します
+        以下の手順で利用します。
+        - オーバーレイテキストを表示させたいクラスの子要素として当該コンポーネントを設定
+        - propsとして「textContent」をStringで渡します
+        ex) <overlay-text
+                v-bind:textContent="'Read More...'"
+            >
+            </overlay-text>
+     -->
     <div class="item-mask">
         <h2 class="item-mask--text">
-            Read More...
+            {{ textContent }}
         </h2>
 	</div>
 
@@ -11,12 +20,16 @@
 <script>
 export default {
 
+    props: {
+        textContent: String
+    }
+
 }
 </script>
 
 <style lang="scss" scoped>
 
-    // フォーカスでオーバーレイ要素で「Read More」テキストを表示
+    // itemクラスの中身はオーバーレイコンポーネントを子に持つクラスで定義が必要
 	.item{
 		// width: 100%;
 		// height: 100%;
@@ -25,7 +38,7 @@ export default {
 		// position: relative;
   		// overflow: hidden;
 
-		//各要素に覆いかぶさるオーバーレイ要素
+		// オーバーレイ要素 薄黒のマスクをかける
 		&-mask {
 			position: absolute;
 			top: 0;
@@ -39,7 +52,7 @@ export default {
 			transition: .3s;
 			opacity: 0;
 
-            //「Read More」テキスト
+            // フォーカスで表示されるテキスト
 			&--text {
 				width: 100%;
 				height: 100%;

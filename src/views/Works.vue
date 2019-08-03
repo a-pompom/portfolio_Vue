@@ -24,7 +24,11 @@
 						<img v-bind:src="workSummary.appImageSource">
 						<h3>{{ workSummary.appName }}</h3>
 
-						<overlay-text></overlay-text>
+						<overlay-text
+							v-bind:textContent="'Read More...'"
+						>
+
+						</overlay-text>
 
 					</div>
 
