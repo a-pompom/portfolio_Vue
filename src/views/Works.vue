@@ -39,7 +39,7 @@
 		<div class="works__content">
 			
 			<!-- 一覧要素 フィルタリングをアニメーションさせるため、ulをtransition-groupで表現 -->
-			<transition-group tag="ul" name="filter" class="works__content-list">
+			<transition-group tag="ul" name="filter" appear class="works__content-list">
 				<!-- 各要素へフォーカス + クリックで
 					 詳細をモーダルで表示
 				 -->
@@ -48,6 +48,7 @@
 					v-bind:key="workSummary.id"
 
 					v-on:click="clickWork(summaryIndex)"
+
 					class="works__content-list__item">
 					
 					<!-- 概要(キャプチャ,  アプリ名) -->
@@ -355,12 +356,56 @@
 	}
 
 	// カテゴリフィルタリング
-	.filter-enter-active, .filter-leave-actice, .filter-move {
-		transition: opacity 0.5s, transform 1.2s;
+	// enter - 横/縦の少しずれて位置から挿入することで移動を自然に見えるようにする
+	// leave - 消えながら移動すると見栄えが悪いのでposition: absoluteでその場で消失
+	.filter-enter-active,
+	.filter-leave-active,
+	.filter-move {
+		transition: 650ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+		transition-property: opacity, transform;
 	}
-	.filter-enter, .filter-leave-to {
-		opacity: 0;
+
+	// 縦長画面では一列に並んで表示されるので、カード形式でアニメーションを設定
+	@include for-portrait() {
+		.filter-enter {
+			opacity: 0;
+			transform: translateX(50px) scaleY(0.5);
+		}
+
+		.filter-enter-to {
+			opacity: 1;
+			transform: translateX(0) scaleY(1);
+		}
+
+		.filter-leave-active {
+			position: absolute;
+		}
+		.filter-leave-to {
+			opacity: 0;
+			transform: scaleY(0);
+			transform-origin: center top;
+		}
 	}
-	
+	// 横長のときは要素が2つずつ並ぶので、横方向でのアニメーションを設定
+	@include for-landscape() {
+		.filter-enter {
+			opacity: 0;
+			transform: translateY(120px) scaleX(0.3);
+		}
+
+		.filter-enter-to {
+			opacity: 1;
+			transform: translateY(0) scaleX(1);
+		}
+
+		.filter-leave-active {
+			position: absolute;
+		}
+		.filter-leave-to {
+			opacity: 0;
+			transform: scaleX(0);
+			transform-origin: right;
+		}
+	}
 	
 </style>
