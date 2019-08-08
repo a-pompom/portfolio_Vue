@@ -47,7 +47,7 @@
 					v-for="(workSummary, summaryIndex) in filteredWorksSummary"
 					v-bind:key="workSummary.id"
 
-					v-on:click="clickWork(summaryIndex)"
+					v-on:click="clickWork(workSummary.id)"
 
 					class="works__content-list__item">
 					
@@ -67,8 +67,8 @@
 						- 詳細要素を格納したJSON
 					 -->
 					<modal-component
-						v-bind:params="getModalParams(summaryIndex)"
-						v-bind:visible="currentModalIndex === summaryIndex"
+						v-bind:params="getModalParams(summaryIndex, workSummary.id)"
+						v-bind:visible="currentModalIndex === workSummary.id"
 						v-bind:content="worksDetailContent"
 
 						v-on:close="closeModal"
@@ -165,12 +165,12 @@
 			/**
 			 * モーダル要素へ渡す引数オブジェクトを生成する
 			 */
-			getModalParams(summaryIndex) {
+			getModalParams(worksummaryIndex, workId) {
 				return {
 					"currentModalIndex": this.currentModalIndex,
-					"index": summaryIndex,
-					"workSummary": this.worksSummary[summaryIndex],
-					"workDetail": worksDetail[summaryIndex]
+					"index": worksummaryIndex,
+					"workSummary": this.worksSummary[workId],
+					"workDetail": worksDetail[workId]
 				};
 			},
 

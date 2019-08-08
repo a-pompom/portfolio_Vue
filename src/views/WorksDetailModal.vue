@@ -95,7 +95,7 @@
 
 			// モーダル要素である詳細コンポーネントで可視か否か
 			visible() {
-				return this.currentModalIndex === this.index;
+				return this.currentModalIndex === this.workDetail.id;
 			}
 
 		},
@@ -127,6 +127,9 @@
 					let worksDetailDOM = document.getElementsByClassName("works-detail")[this.index];
 					let worksDetailHeight = worksDetailDOM.offsetHeight;
 					let worksDetailWidth = worksDetailDOM.offsetWidth;
+					console.log('DOM is ' + worksDetailDOM);
+					console.log('DOM height is ' + worksDetailHeight);
+					console.log('DOM width is ' + worksDetailWidth);
 
 					// 詳細要素の絶対位置を画面・詳細要素の幅・高さをもとに算出し、更新
 					worksDetailDOM.style.top = (windowHeight - worksDetailHeight) / 2 + "px";
