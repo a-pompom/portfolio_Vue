@@ -5,18 +5,50 @@
 		<div class="works__title">
 			<h1>つくったもの</h1>
 		</div>
+
+		<div class="works__category">
+			<ul class="works__category-list">
+				<!-- カテゴリ要素 -->
+				<li 
+					v-for="category in worksCategoryArray"
+					v-bind:key="category.id"
+					v-on:click="selectedCategory = category.name"
+
+					class="works__category-list__item">
+
+					<!-- アイコンが無い場合は代替テキストを表示 -->
+					<h4 v-if="category.imageSource === '' ">
+						{{ category.name }}
+					</h4>
+					<img v-else v-bind:src="category.imageSource">
+
+					<p>{{ category.name }}</p>
+
+				</li>
+
+				<!-- 全カテゴリ表示 -->
+				<li 
+					v-on:click="selectedCategory = ''"
+					class="works__category-list__item">
+					<h4>ALL</h4>
+					
+				</li>
+			</ul>	
+		</div>
 		
 		<div class="works__content">
 			
-			<ul class="works__content-list">
+			<!-- 一覧要素 フィルタリングをアニメーションさせるため、ulをtransition-groupで表現 -->
+			<transition-group tag="ul" name="filter" appear class="works__content-list">
 				<!-- 各要素へフォーカス + クリックで
 					 詳細をモーダルで表示
 				 -->
 				<li 
-					v-for="(workSummary, summaryIndex) in worksSummary"
+					v-for="(workSummary, summaryIndex) in filteredWorksSummary"
 					v-bind:key="workSummary.id"
 
 					v-on:click="clickWork(summaryIndex)"
+
 					class="works__content-list__item">
 					
 					<!-- 概要(キャプチャ,  アプリ名) -->
@@ -47,7 +79,7 @@
 					
 
 				</li>
-			</ul>
+			</transition-group>
 			
 		</div> <!-- /content -->
 		
@@ -71,12 +103,42 @@
 			return {
 				worksSummary: worksSummary,
 				worksDetail: worksDetail,
+				currentModalIndex: -1, //-1のときはモーダル非表示				
+				worksDetailContent: worksDetailModal, //モーダル要素として渡すコンポーネント 引数として渡される
 
-				currentModalIndex: -1, //-1のときはモーダル非表示
-				overlayVisible: false,
-
-				worksDetailContent: worksDetailModal
+				selectedCategory: "",
 			};
+		},
+
+		computed: {
+			// カテゴリー一覧
+			worksCategoryArray() {
+				return this.getCategoryFromTags();
+			},
+
+			// カテゴリ選択で絞り込まれたアプリ一覧
+			filteredWorksSummary() {
+				// 未フィルタリングの場合は全件描画
+				if (this.selectedCategory === "") {
+					return this.worksSummary;
+				}
+
+				let filteredResult = [];
+				
+				// 各アプリについて、選択されたカテゴリが含まれるか検証し、含むもののみをフィルタ結果に追加
+				// カテゴリ選択は頻繁に呼び出されるものでもなく、副次的な要素なので、
+				// dataプロパティを無闇に増やすのではなく、アプリ一覧から動的に生成するよう処理
+				this.worksSummary.forEach((workSummary) => {
+					let targetCategoryArray = this.getTagListFromApp(workSummary.id);
+
+					if (targetCategoryArray.includes(this.selectedCategory)) {
+						filteredResult.push(workSummary);
+					}
+				});
+
+				return filteredResult;
+
+			}
 		},
 		
 		/**
@@ -118,6 +180,54 @@
 			 */
 			closeModal() {
 				this.currentModalIndex = -1;
+			},
+
+			/**
+			 * アプリのタグ一覧をもとに
+			 * カテゴリリストを生成する
+			 */
+			getCategoryFromTags() {
+
+				let categoryArray = [];
+				// 重複除外のため、登録済みのカテゴリ名を管理
+				let categoryNameArray = [];
+
+				// アプリのappIconListプロパティにカテゴリ情報が含まれているので、ループで取得
+				this.worksSummary.forEach((workSummary) => {
+
+					workSummary.appIconList.forEach((category) => {
+
+						// 既に登録済みでない場合、id, カテゴリ名, 画像ソースを登録
+						if (!categoryNameArray.includes(category.tagName)) {
+
+							categoryArray.push({
+								id: categoryNameArray.length, // ループの度にカテゴリの要素数は更新されるのでユニーク要素として利用
+								name: category.tagName,
+								imageSource: category.imgSource
+							});
+
+							//登録したら重複除外用のリストへタグ名を登録
+							categoryNameArray.push(category.tagName);
+
+						}
+						
+					});
+
+				});
+
+				return categoryArray;
+			},
+
+			/**
+			 * アプリに設定されたタグの一覧を配列形式で取得する
+			 */
+			getTagListFromApp(appId) {
+				let appCategoryArray = [];
+				worksSummary[appId].appIconList.forEach((element) => {
+					appCategoryArray.push(element.tagName);
+				});
+
+				return appCategoryArray;
 			}
 		}
 		
@@ -140,6 +250,29 @@
 			margin-bottom: 10px;
 			
 			border-bottom: 1px solid #000;
+		}
+
+		// カテゴリ一覧
+		&__category {
+			width: 50%;
+			height: 64px;
+			margin: 20px auto;
+
+			&-list {
+				@include flex-between;
+				&__item {
+					cursor: pointer;
+
+					& img {
+						width: 48px;
+					}
+					& h4 {
+						height: 30px;
+					}
+					
+				}
+			}
+
 		}
 		
 		// コンテンツ 各要素を枠で囲ってリスト形式で表示させる
@@ -185,7 +318,59 @@
 
 		
 	}
-	
+
+	// カテゴリフィルタリング
+	// enter - 横/縦の少しずれて位置から挿入することで移動を自然に見えるようにする
+	// leave - 消えながら移動すると見栄えが悪いのでposition: absoluteでその場で消失
+	.filter-enter-active,
+	.filter-leave-active,
+	.filter-move {
+		transition: 650ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+		transition-property: opacity, transform;
+	}
+
+	// 縦長画面では一列に並んで表示されるので、カード形式でアニメーションを設定
+	@include for-portrait() {
+		.filter-enter {
+			opacity: 0;
+			transform: translateX(50px) scaleY(0.5);
+		}
+
+		.filter-enter-to {
+			opacity: 1;
+			transform: translateX(0) scaleY(1);
+		}
+
+		.filter-leave-active {
+			position: absolute;
+		}
+		.filter-leave-to {
+			opacity: 0;
+			transform: scaleY(0);
+			transform-origin: center top;
+		}
+	}
+	// 横長のときは要素が2つずつ並ぶので、横方向でのアニメーションを設定
+	@include for-landscape() {
+		.filter-enter {
+			opacity: 0;
+			transform: translateY(120px) scaleX(0.3);
+		}
+
+		.filter-enter-to {
+			opacity: 1;
+			transform: translateY(0) scaleX(1);
+		}
+
+		.filter-leave-active {
+			position: absolute;
+		}
+		.filter-leave-to {
+			opacity: 0;
+			transform: scaleX(0);
+			transform-origin: right;
+		}
+	}
 	
 
 </style>
