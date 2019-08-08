@@ -10,32 +10,29 @@
         ・closeイベントを設定
             →終了イベントがモーダルコンポーネントから親コンポーネントへ伝播されるので、終了処理を親コンポーネントへ記述
  -->
-    <div>
+    <div v-show="visible">
         <!-- オーバーレイ要素 要素クリックでモーダルを閉じる -->
         <div
             v-on:click.stop="close"
-            v-show="visible"
             class="modal__overlay">
         </div>
 
         <!-- モーダル要素本体 表示されて初めて幅・高さが決定されるので
-             位置を指定する場合は、nextTickを利用した方がよい
-             - content: モーダル本体のコンポーネント
-             - params: 本体コンポーネントへ渡すprops
-             - visible: modal要素の可視
-             - closeイベント: 閉じる処理は親要素へ伝播させる  -->
+            位置を指定する場合は、nextTickを利用した方がよい
+            - content: モーダル本体のコンポーネント
+            - params: 本体コンポーネントへ渡すprops
+            - visible: modal要素の可視
+            - closeイベント: 閉じる処理は親要素へ伝播させる  -->
         <div
             v-bind:is="content"
             v-bind="params"
-
-            v-show="visible"
             v-on:close="close"
 
             class="modal__content">
         </div>
 
     </div>
-		
+    
 </template>
 
 <script>

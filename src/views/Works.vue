@@ -52,17 +52,12 @@
 					class="works__content-list__item">
 					
 					<!-- 概要(キャプチャ,  アプリ名) -->
-					<figure class="item">
-						<img v-bind:src="workSummary.appImageSource">
+					<overlay-text
+						v-bind:textContent="'Read More...'"
+					>
+						<img v-bind:src="workSummary.appImageSource" class="item-image">
 						<h3>{{ workSummary.appName }}</h3>
-
-						<figcaption class="item-mask">
-							<h2 class="item-mask--text">
-								Read More...
-							</h2>
-						</figcaption>
-
-					</figure>
+					</overlay-text>
 
 					<!-- モーダルコンポーネント
 						- 表示対象のインデックス
@@ -80,6 +75,9 @@
 					>
 					</modal-component>					
 
+					 
+					
+
 				</li>
 			</transition-group>
 			
@@ -93,6 +91,7 @@
 	import worksDetail from "../assets/works_data/worksDetail.json";
 	import worksDetailModal from "./WorksDetailModal.vue";
 
+	import overlayText from '../components/OverlayText.vue';
 	import modalComponent from '../components/Modal.vue';
 	
 	export default {
@@ -143,9 +142,11 @@
 		},
 		
 		/**
+		 * - オーバーレイテキスト
 		 * - モーダルコンポーネント
 		 */
 		components: {
+			overlayText: overlayText,
 			modalComponent: modalComponent
 		},
 		
@@ -310,49 +311,12 @@
 		
 	}
 	
-	// フォーカスでオーバーレイ要素で「Read More」テキストを表示
-	.item{
-		width: 100%;
-		height: 100%;
-		margin: 0;
+	// オーバーレイの親となる要素 アプリのキャプチャ + タイトル
+	.item-image{
+		max-width: 400px;
+		max-height: 180px;
 
-		position: relative;
-  		overflow: hidden;
-
-		& img {
-			max-width: 400px;
-			max-height: 180px;
-		}
-
-		//各要素に覆いかぶさるオーバーレイ要素
-		&-mask {
-			position: absolute;
-			top: 0;
-			left: 0;
-			z-index: 2;
-
-			width: 100%;
-			height: 100%;
-			background: rgba(0,0,0,.6);
-
-			transition: .3s;
-			opacity: 0;
-			
-			//「Read More」テキスト
-			&--text {
-				width: 100%;
-				height: 100%;
-				color: #fff;
-				margin: 0;
-				
-
-			}
-		}
-
-		&:hover &-mask {
-			opacity: 1.0;
-			padding-top: 25%;
-		}
+		
 	}
 
 	// カテゴリフィルタリング
@@ -408,4 +372,5 @@
 		}
 	}
 	
+
 </style>

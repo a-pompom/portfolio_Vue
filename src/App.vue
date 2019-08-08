@@ -21,7 +21,10 @@
 	
 		</div>
 		
-		<router-view/>
+		<transition name="content">
+			<router-view></router-view>
+		</transition>
+		
 	</div>
 </template>
 
@@ -60,6 +63,14 @@
 			}
 		}
 		
+	}
+
+	// ルーティング要素のアニメーション
+	.content-enter, .content-leave-to {
+		opacity: 0;
+	}
+	.content-enter-active, .content-leave-active {
+		transition: opacity .3s;
 	}
 	
 </style>
