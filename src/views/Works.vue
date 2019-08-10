@@ -303,6 +303,10 @@
 					border-radius: 1%;
 					text-align: center;
 					margin: 20px auto;
+
+					& img {
+						padding-top: 15px;
+					}
 					
 				}
 				
