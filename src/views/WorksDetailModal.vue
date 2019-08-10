@@ -118,6 +118,8 @@
 			 * モーダルを中心に配置するための位置スタイルを設定
 			 */
 			setWorksDetailPosition() {
+				
+				// モーダル要素は非表示の段階では幅・高さを持たないので、nextTickで描画後に当該処理を発火させる
 				this.$nextTick(() => {
 					//画面
 					let windowWidth = window.innerWidth;
@@ -127,9 +129,6 @@
 					let worksDetailDOM = document.getElementsByClassName("works-detail")[this.index];
 					let worksDetailHeight = worksDetailDOM.offsetHeight;
 					let worksDetailWidth = worksDetailDOM.offsetWidth;
-					console.log('DOM is ' + worksDetailDOM);
-					console.log('DOM height is ' + worksDetailHeight);
-					console.log('DOM width is ' + worksDetailWidth);
 
 					// 詳細要素の絶対位置を画面・詳細要素の幅・高さをもとに算出し、更新
 					worksDetailDOM.style.top = (windowHeight - worksDetailHeight) / 2 + "px";
